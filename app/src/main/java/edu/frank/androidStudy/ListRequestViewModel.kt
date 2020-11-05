@@ -1,19 +1,27 @@
 package edu.frank.androidStudy
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import javax.inject.Inject
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ListRequestViewModel @Inject constructor(private val model: ListRequestModel) : ViewModel() {
+class ListRequestViewModel @ViewModelInject constructor(
+    private val model: ListRequestModel
+) :
+    ViewModel() {
     private val para = MutableLiveData<Int>()
+    private val paras = arrayListOf<MutableLiveData<FollowPara>>()
 
-    val status = Transformations.map(para) {
+    val status = Transformations.switchMap(para) {
         model.updateStatus(it)
     }
 
     fun updateStatus(position: Int) {
         para.value = position
     }
-
 }

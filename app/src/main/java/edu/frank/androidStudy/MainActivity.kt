@@ -3,7 +3,6 @@ package edu.frank.androidStudy
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.TypedValue
 import edu.frank.androidStudy.databinding.ActivityMainBinding
 import edu.frank.androidStudy.extension.setBindingLayout
 
@@ -31,14 +30,5 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.rvSubjects.adapter = adapter
-
-        binding.progress.progress = 40
-        binding.progress.setOnClickListener {
-            if (binding.progress.progress == -2){
-                binding.progress.progress = 40
-            }else{
-                binding.progress.progress = -2
-            }
-        }
     }
 }
