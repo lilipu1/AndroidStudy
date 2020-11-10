@@ -18,11 +18,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter = SubjectsAdapter()
-        adapter.items = arrayListOf("请求与条目绑定")
+        adapter.items = arrayListOf("请求与条目绑定","内存抖动")
         adapter.itemClickListener = {position ->
             when (position) {
                 0 -> {
                     startActivity(Intent(this,ListRequestActivity::class.java))
+                }
+                1->{
+                    startActivity(Intent(this,MemoryShakeActivity::class.java))
                 }
                 else -> {
                 }
