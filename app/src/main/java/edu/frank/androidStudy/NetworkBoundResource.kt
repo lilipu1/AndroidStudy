@@ -27,7 +27,7 @@ abstract class NetworkBoundResource<ResultType>
                     fetchFromNetwork(dbSource)
                 } else {
                     result.addSource(dbSource) { newData ->
-                        setValue(Resource.success(1, "", newData))
+                        setValue(Resource.success(200, "", newData))
                     }
                 }
             }
@@ -55,11 +55,8 @@ abstract class NetworkBoundResource<ResultType>
                         saveCallResult(response.data)
                         val fakeResult = MutableLiveData<ResultType>()
                         fakeResult.value = response.data
-                        if (getUniqueId() != null) {
-                            response.message = getUniqueId()!!
-                        }
                         result.addSource(fakeResult) { newData ->
-                            setValue(Resource.success(200, response.message, newData))
+                            setValue(Resource.success(200, response.message, newData,response.uniqueId?:""))
                         }
                     }
                 }
@@ -69,8 +66,8 @@ abstract class NetworkBoundResource<ResultType>
                     result.addSource(dbSource) { newData ->
                         setValue(
                             Resource.error(
-                                response?.code?.toInt() ?: -1, response?.message
-                                    ?: "", newData
+                                response?.code?: -1, response?.message
+                                    ?: "", newData,response.uniqueId?:""
                             )
                         )
 
@@ -101,11 +98,6 @@ abstract class NetworkBoundResource<ResultType>
     protected open suspend fun saveCallResult(item: ResultType?) = withContext(Dispatchers.IO) {
 
     }
-
-    /*
-    * 用来做列表刷新的唯一标识
-    * */
-    protected open fun getUniqueId(): String? = null
 
     /**
      * 是否需要从网络获取数据,默认需要

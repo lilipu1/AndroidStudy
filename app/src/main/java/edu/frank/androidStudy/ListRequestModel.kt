@@ -18,10 +18,6 @@ class ListRequestModel @Inject constructor(private val service: ApiService) {
             override fun createCall(): LiveData<BaseResponse<String>> {
                 return service.updateStatus2(position)
             }
-
-            override fun getUniqueId(): String? {
-                return position.toString()
-            }
         }.asLiveData()
     }
 }

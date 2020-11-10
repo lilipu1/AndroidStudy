@@ -55,9 +55,31 @@ class BaseResponse<T> {
                 return baseResponse
             }
         }
+
+        @Suppress("UNCHECKED_CAST")
+        fun <T> create(response: Response<T>,uniqueId:String = ""): BaseResponse<T> {
+            if (response.isSuccessful) {
+                val baseResponse = response.body() as BaseResponse<T>
+                baseResponse.uniqueId = uniqueId
+                return response.body() as BaseResponse<T>
+            } else {
+                val baseResponse = BaseResponse<T>()
+                baseResponse.code = response.code()
+                val msg = response.errorBody()?.string()
+                val errorMsg = if (msg.isNullOrEmpty()) {
+                    response.message()
+                } else {
+                    msg
+                }
+                baseResponse.message = errorMsg
+                baseResponse.uniqueId = uniqueId
+                return baseResponse
+            }
+        }
     }
 
     var code: Int = 404
     var message: String = ""
     var data: T? = null
+    var uniqueId:String? = ""
 }

@@ -39,31 +39,18 @@ class ListRequestActivity : AppCompatActivity() {
         }
 
         adapter.items = items
+
+        viewModel.status.observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    Timber.e("返回了${it.uniqueId}")
+                    adapter.addClickedPosition(it.uniqueId.toInt())
+                    adapter.notifyItemChanged(it.uniqueId.toInt())
+                }
+            }
+        })
         adapter.itemClickListener = { position ->
             viewModel.updateStatus(position)
-
-            viewModel.status.observe(this, Observer {
-                when (it.status) {
-                    Status.SUCCESS -> {
-                        if (it.message.toIntOrNull() == position){
-                            adapter.addClickedPosition(position)
-                            adapter.notifyItemChanged(position)
-                        }
-                    }
-                }
-            })
-            /* CoroutineScope(Dispatchers.IO).launch {
-                 val response = service.updateStatus(position)
-                 Timber.tag("响应:").e(response.to)
-                 CoroutineScope(Dispatchers.Main).launch {
-                     if (response.code == 200 && response.data == "true") {
-                         adapter.addClickedPosition(position)
-                         adapter.notifyItemChanged(position)
-                     }
-                 }
-             }*/
-
-
         }
 
         binding.rv.adapter = adapter
