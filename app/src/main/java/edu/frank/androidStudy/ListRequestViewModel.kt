@@ -15,7 +15,6 @@ class ListRequestViewModel @ViewModelInject constructor(
 ) :
     ViewModel() {
     private val para = MutableLiveData<Int>()
-    private val paras = arrayListOf<MutableLiveData<FollowPara>>()
 
     val status = Transformations.switchMap(para) {
         model.updateStatus(it)

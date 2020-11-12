@@ -3,6 +3,10 @@
     package="edu.frank.androidStudy">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:allowBackup="true"
@@ -25,6 +29,8 @@
         <activity android:name=".ListRequestActivity"/>
 
         <activity android:name=".MemoryShakeActivity"/>
+
+        <activity android:name=".CompressImageActivity"/>
     </application>
 
 </manifest>

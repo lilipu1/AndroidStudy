@@ -25,9 +25,6 @@ class ListRequestActivity : AppCompatActivity() {
     @Inject
     lateinit var service: ApiService
 
-    private val viewModel: ListRequestViewModel by viewModels()
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding =
@@ -39,18 +36,18 @@ class ListRequestActivity : AppCompatActivity() {
         }
 
         adapter.items = items
-
-        viewModel.status.observe(this, Observer {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    Timber.e("返回了${it.uniqueId}")
-                    adapter.addClickedPosition(it.uniqueId.toInt())
-                    adapter.notifyItemChanged(it.uniqueId.toInt())
-                }
-            }
-        })
+        
         adapter.itemClickListener = { position ->
+            val viewModel  = ListRequestViewModel(ListRequestModel(service))
             viewModel.updateStatus(position)
+            viewModel.status.observe(this, Observer {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        adapter.addClickedPosition(position)
+                        adapter.notifyItemChanged(position)
+                    }
+                }
+            })
         }
 
         binding.rv.adapter = adapter

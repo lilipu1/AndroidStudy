@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import edu.frank.androidStudy.http.BaseResponse
 import edu.frank.androidStudy.http.Resource
 import kotlinx.coroutines.*
+import timber.log.Timber
 
 abstract class NetworkBoundResource<ResultType>
 @MainThread constructor() {
@@ -43,10 +44,12 @@ abstract class NetworkBoundResource<ResultType>
 
     private fun fetchFromNetwork(dbSource: LiveData<ResultType>) {
         val baseResponse: LiveData<BaseResponse<ResultType>> = createCall()
+
         result.addSource(dbSource) { newData ->
             setValue(Resource.loading(newData))
         }
         result.addSource(baseResponse) { response ->
+            Timber.e("收到响应:${response.uniqueId}")
             result.removeSource(baseResponse)
             result.removeSource(dbSource)
             when (response?.code) {

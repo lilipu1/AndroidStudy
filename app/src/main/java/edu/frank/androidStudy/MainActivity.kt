@@ -18,14 +18,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter = SubjectsAdapter()
-        adapter.items = arrayListOf("请求与条目绑定","内存抖动")
-        adapter.itemClickListener = {position ->
+        adapter.items = arrayListOf("请求与条目绑定", "内存抖动", "图片压缩")
+        adapter.itemClickListener = { position ->
             when (position) {
                 0 -> {
-                    startActivity(Intent(this,ListRequestActivity::class.java))
+                    startActivity(Intent(this, ListRequestActivity::class.java))
                 }
-                1->{
-                    startActivity(Intent(this,MemoryShakeActivity::class.java))
+                1 -> {
+                    startActivity(Intent(this, MemoryShakeActivity::class.java))
+                }
+                2 -> {
+                    startActivity(Intent(this, CompressImageActivity::class.java))
                 }
                 else -> {
                 }
