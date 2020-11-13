@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.PictureResult
 import edu.frank.androidStudy.databinding.ActivityCompressImageBinding
@@ -44,12 +45,15 @@ class CompressImageActivity : AppCompatActivity() {
 
                 override fun onPictureTaken(result: PictureResult) {
                     super.onPictureTaken(result)
-                    val dir = File(Environment.getExternalStorageDirectory().absolutePath,"study")
-                    if (!dir.exists()){
+                    val dir = File(
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath,
+                        "study"
+                    )
+                    if (!dir.exists()) {
                         dir.mkdirs()
                     }
-                    val file = File(dir,"测试.jpg")
-                    if (file.exists()){
+                    val file = File(dir, "测试.jpg")
+                    if (file.exists()) {
                         file.delete()
                     }
                     result.toFile(file) { file ->
@@ -57,6 +61,7 @@ class CompressImageActivity : AppCompatActivity() {
                             Glide.with(this@CompressImageActivity)
                                 .load(file)
                                 .skipMemoryCache(true)
+                               // .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .into(binding.ivPhoto)
                         }
                     }

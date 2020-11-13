@@ -1,6 +1,7 @@
 package edu.frank.androidStudy
 
 import android.content.Intent
+import android.net.TrafficStats
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import edu.frank.androidStudy.databinding.ActivityMainBinding
@@ -16,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         binding.mToolbar.apply {
             title = "安卓学习"
         }
-
         adapter = SubjectsAdapter()
         adapter.items = arrayListOf("请求与条目绑定", "内存抖动", "图片压缩")
         adapter.itemClickListener = { position ->
